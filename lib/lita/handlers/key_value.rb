@@ -3,6 +3,7 @@ require "lita"
 module Lita
   module Handlers
     class KeyValue < Handler
+      REDIS_KEY = "kv"
       KEY_PATTERN = /[\w\._]+/
 
       route(/^kv\s+set\s+(#{KEY_PATTERN.source})\s+(.+)/i, :set, command: true, help: {
@@ -20,6 +21,30 @@ module Lita
       route(/^kv\s+list/i, :list, command: true, help: {
         "kv list" => "List all keys."
       })
+
+      def set(response)
+        key, value = response.matches.first
+        key = normalize_key(key)
+        redis.hset(REDIS_KEY, key, value)
+        response.reply("Set #{key} to #{value}.")
+      end
+
+      def get(response)
+        key = normalize_key(response.matches.first.first)
+        value = redis.hget(REDIS_KEY, key)
+
+        if value
+          response.reply(value)
+        else
+          response.reply("No value for key #{key}.")
+        end
+      end
+
+      private
+
+      def normalize_key(key)
+        key.to_s.downcase.strip
+      end
     end
 
     Lita.register_handler(KeyValue)
