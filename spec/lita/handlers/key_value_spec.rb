@@ -25,4 +25,19 @@ describe Lita::Handlers::KeyValue, lita_handler: true do
     send_command("kv get foo")
     expect(replies.last).to eq("No value for key foo.")
   end
+
+  it "lists keys" do
+    send_command("kv set foo bar")
+    send_command("kv set baz blah")
+    send_command("kv set carl pug")
+    send_command("kv list")
+    expect(replies.last).to eq("baz, carl, foo")
+  end
+
+  describe "#list" do
+    it "replies with a warning if there are no stored keys" do
+      send_command("kv list")
+      expect(replies.last).to eq("No keys are stored.")
+    end
+  end
 end

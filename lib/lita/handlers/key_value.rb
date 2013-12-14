@@ -48,6 +48,16 @@ module Lita
         end
       end
 
+      def list(response)
+        keys = redis.hkeys(REDIS_KEY)
+
+        if keys.empty?
+          response.reply("No keys are stored.")
+        else
+          response.reply(keys.sort.join(", "))
+        end
+      end
+
       private
 
       def normalize_key(key)
