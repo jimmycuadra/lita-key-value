@@ -43,8 +43,10 @@ module Lita
       def delete(response)
         key = normalize_key(response.matches.first.first)
 
-        if redis.hdel(REDIS_KEY, key)
+        if redis.hdel(REDIS_KEY, key) >= 1
           response.reply("Deleted #{key}.")
+        else
+          response.reply("#{key} isn't stored.")
         end
       end
 

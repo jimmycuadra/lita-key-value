@@ -34,6 +34,13 @@ describe Lita::Handlers::KeyValue, lita_handler: true do
     expect(replies.last).to eq("baz, carl, foo")
   end
 
+  describe "#delete" do
+    it "replies with a warning if the key isn't stored" do
+      send_command("kv delete foo")
+      expect(replies.last).to eq("foo isn't stored.")
+    end
+  end
+
   describe "#list" do
     it "replies with a warning if there are no stored keys" do
       send_command("kv list")
