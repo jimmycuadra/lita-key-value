@@ -19,10 +19,10 @@ describe Lita::Handlers::KeyValue, lita_handler: true do
     expect(replies.last).to eq("bAr")
   end
 
-  describe "#get" do
-    it "returns a warning if the key was never set" do
-      send_command("kv get foo")
-      expect(replies.last).to eq("No value for key foo.")
-    end
+  it "deletes keys and returns a warning when the empty key is accessed" do
+    send_command("kv set foo bar")
+    send_command("kv delete foo")
+    send_command("kv get foo")
+    expect(replies.last).to eq("No value for key foo.")
   end
 end

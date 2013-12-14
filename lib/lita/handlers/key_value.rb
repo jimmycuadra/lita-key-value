@@ -40,6 +40,14 @@ module Lita
         end
       end
 
+      def delete(response)
+        key = normalize_key(response.matches.first.first)
+
+        if redis.hdel(REDIS_KEY, key)
+          response.reply("Deleted #{key}.")
+        end
+      end
+
       private
 
       def normalize_key(key)
