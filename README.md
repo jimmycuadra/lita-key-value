@@ -45,7 +45,7 @@ You: Lita, kv list
 Lita: google, heart, something.else
 ```
 
-Keys are restricted to alphanumeric characters, underscores, and periods. Values can contain character.
+Keys are restricted to alphanumeric characters, underscores, dashes, and periods. Values can contain character.
 
 ## License
 
