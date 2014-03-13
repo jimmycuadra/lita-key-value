@@ -4,7 +4,7 @@ module Lita
   module Handlers
     class KeyValue < Handler
       REDIS_KEY = "kv"
-      KEY_PATTERN = /[\w\._]+/
+      KEY_PATTERN = /[\w\._-]+/
 
       route(/^kv\s+set\s+(#{KEY_PATTERN.source})\s+(.+)/i, :set, command: true, help: {
         "kv set KEY VALUE" => "Set KEY to VALUE."
