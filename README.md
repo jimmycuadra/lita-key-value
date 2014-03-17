@@ -15,6 +15,22 @@ Add lita-key-value to your Lita instance's Gemfile:
 gem "lita-key-value"
 ```
 
+## Configuration
+
+### Optional attributes
+
+* `key_pattern` (Regexp) - Determines what Lita will recognize as a valid key. Default: `/[\w\._]+/`.
+* `key_normalizer` (Proc) - A custom callable that determines how each key will be normalized before being stored in Redis. The proc should take one argument, the key as matched via regular expression, and return one value, the normalized version of the key.
+
+### Example
+
+``` ruby
+Lita.configure do |config|
+  config.handlers.key_value.key_pattern = /[\w-]+/
+  config.handlers.key_value.key_normalizer = proc { |key| "~#{key}~" }
+end
+```
+
 ## Usage
 
 Set a key:

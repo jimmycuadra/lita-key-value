@@ -47,4 +47,22 @@ describe Lita::Handlers::KeyValue, lita_handler: true do
       expect(replies.last).to eq("No keys are stored.")
     end
   end
+
+  context "with a custom key handler and normalizer" do
+    before do
+      Lita.config.handlers.key_value.tap do |config|
+        config.key_pattern = /[\w-]+/
+        config.key_normalizer = proc { |key| "~#{key}~" }
+      end
+
+      described_class.routes.clear
+      subject.define_routes({})
+    end
+
+    it "allows a custom key pattern and normalizer" do
+      send_command("kv set hello-world it works")
+      send_command("kv get hello-world")
+      expect(replies.last).to eq("it works")
+    end
+  end
 end
