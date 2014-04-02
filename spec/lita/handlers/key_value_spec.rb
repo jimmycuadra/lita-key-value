@@ -5,6 +5,7 @@ describe Lita::Handlers::KeyValue, lita_handler: true do
   it { routes_command("kv get foo").to(:get) }
   it { routes_command("kv delete foo").to(:delete) }
   it { routes_command("kv list").to(:list) }
+  it { routes_command("kv search foo").to(:search) }
 
   it "sets and gets keys" do
     send_command("kv set foo bar")
@@ -45,6 +46,23 @@ describe Lita::Handlers::KeyValue, lita_handler: true do
     it "replies with a warning if there are no stored keys" do
       send_command("kv list")
       expect(replies.last).to eq("No keys are stored.")
+    end
+  end
+
+  describe "#search" do
+    it "returns keys containing the search term" do
+      send_command("kv set foo bar")
+      send_command("kv set bazfoo bar")
+      send_command("kv set foobaz bar")
+      send_command("kv set blahfoobaz bar")
+      send_command("kv set hello.amaninacan lol")
+      send_command("kv search foo")
+      expect(replies.last).to eq("bazfoo, blahfoobaz, foo, foobaz")
+    end
+
+    it "replies with a warning if there are no matching keys" do
+      send_command("kv search foo")
+      expect(replies.last).to eq("No matching keys found.")
     end
   end
 

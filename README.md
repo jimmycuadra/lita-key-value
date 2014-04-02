@@ -61,7 +61,14 @@ You: Lita, kv list
 Lita: google, heart, something.else
 ```
 
-Keys are restricted to alphanumeric characters, underscores, and periods. Values can contain character.
+Search for keys:
+
+```
+You: Lita, kv search amaninacan
+Lita: amaninacan.amazon.recommendations, hello.amaninacan
+```
+
+By default, keys are restricted to alphanumeric characters, underscores, and periods. Values can contain character.
 
 ## License
 

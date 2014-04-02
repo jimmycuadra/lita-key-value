@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = "lita-key-value"
-  spec.version       = "0.1.0"
+  spec.version       = "0.2.0"
   spec.authors       = ["Jimmy Cuadra"]
   spec.email         = ["jimmy@jimmycuadra.com"]
   spec.description   = %q{A Lita handler for storing snippets of text.}

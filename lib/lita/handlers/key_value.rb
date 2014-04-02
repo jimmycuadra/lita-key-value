@@ -27,6 +27,10 @@ module Lita
         route(/^kv\s+list/i, :list, command: true, help: {
           "kv list" => "List all keys."
         })
+
+        route(/^kv\s+search\s+(#{pattern})/i, :search, command: true, help: {
+          "kv search KEY" => "Search for keys containing KEY."
+        })
       end
 
       on :loaded, :define_routes
@@ -71,6 +75,19 @@ module Lita
           response.reply("No keys are stored.")
         else
           response.reply(keys.sort.join(", "))
+        end
+      end
+
+      def search(response)
+        search_term = response.matches.first.first
+        keys = redis.hkeys(REDIS_KEY)
+
+        matching_keys = keys.select { |key| key.include?(search_term) }
+
+        if matching_keys.empty?
+          response.reply("No matching keys found.")
+        else
+          response.reply(matching_keys.sort.join(", "))
         end
       end
 
