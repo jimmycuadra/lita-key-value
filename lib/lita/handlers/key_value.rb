@@ -4,11 +4,12 @@ module Lita
   module Handlers
     class KeyValue < Handler
       REDIS_KEY = "kv"
-      KEY_PATTERN = /[\w\._]+/
 
-      def self.default_config(config)
-        config.key_pattern = nil
-        config.key_normalizer = nil
+      config :key_pattern, type: Regexp, default: /[\w\._]+/
+      config :key_normalizer do
+        validate do |value|
+          "must be a callable object" unless value.respond_to?(:call)
+        end
       end
 
       def self.define_routes(pattern)
@@ -36,8 +37,7 @@ module Lita
       on :loaded, :define_routes
 
       def define_routes(payload)
-        pattern = config.key_pattern || KEY_PATTERN
-        self.class.define_routes(pattern.source)
+        self.class.define_routes(config.key_pattern.source)
       end
 
       def set(response)
@@ -100,7 +100,7 @@ module Lita
       def normalize_key(key)
         normalizer = config.key_normalizer
 
-        if normalizer.respond_to?(:call)
+        if normalizer
           normalizer.call(key)
         else
           key.to_s.downcase.strip

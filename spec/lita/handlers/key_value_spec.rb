@@ -1,11 +1,11 @@
 require "spec_helper"
 
 describe Lita::Handlers::KeyValue, lita_handler: true do
-  it { routes_command("kv set foo bar").to(:set) }
-  it { routes_command("kv get foo").to(:get) }
-  it { routes_command("kv delete foo").to(:delete) }
-  it { routes_command("kv list").to(:list) }
-  it { routes_command("kv search foo").to(:search) }
+  it { is_expected.to route_command("kv set foo bar").to(:set) }
+  it { is_expected.to route_command("kv get foo").to(:get) }
+  it { is_expected.to route_command("kv delete foo").to(:delete) }
+  it { is_expected.to route_command("kv list").to(:list) }
+  it { is_expected.to route_command("kv search foo").to(:search) }
 
   it "sets and gets keys" do
     send_command("kv set foo bar")
