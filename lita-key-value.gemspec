@@ -5,7 +5,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["jimmy@jimmycuadra.com"]
   spec.description   = %q{A Lita handler for storing snippets of text.}
   spec.summary       = %q{A Lita handler for storing snippets of text.}
-  spec.homepage      = "https://github.com/jimmycuadra/"
+  spec.homepage      = "https://github.com/jimmycuadra/lita-key-value"
   spec.license       = "MIT"
   spec.metadata      = { "lita_plugin_type" => "handler" }
 
